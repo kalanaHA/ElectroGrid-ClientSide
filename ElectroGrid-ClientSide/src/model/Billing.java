@@ -37,37 +37,39 @@ public class Billing {
 				} 
 
 				// Prepare the html table to be displayed   
-				output = "<table border='1'><tr><th>app_status</th>"
-						+ "<th>app_Details</th><th>app_date</th>"
-						+ "<th>endorser_type</th>"
+				output = "<table border='1'><tr><th>Bill Amount</th>"
+						+ "<th>Bill Unit</th><th>Unit Price</th>"
+						+ "<th>Bill CR</th><th>Bill Date</th>"
 						+ "<th>Update</th><th>Remove</th></tr>";
 
 
-				  String query = "select * from Approvement";   
+				  String query = "select * from billings";   
 				  Statement stmt = con.createStatement();   
 				  ResultSet rs = stmt.executeQuery(query); 
 
 				  // iterate through the rows in the result set   
 				  while (rs.next())   {  
 
-					  	String app_ID = Integer.toString(rs.getInt("app_ID"));
-						String app_status = rs.getString("app_status");
-						String app_Details = rs.getString("app_Details");
-						String app_date = rs.getString("app_date");
-						String endorser_type = rs.getString("endorser_type");
+					  	String billID = Integer.toString(rs.getInt("billID"));
+						String billAmount = rs.getString("billAmount");
+						String billUnit = rs.getString("billUnit");
+						String unitPrice = rs.getString("unitPrice");
+						String billCR = rs.getString("billCR");
+						String billDate = rs.getString("billDate");
 						
 					  // Add into the html table    
 
-					  output += "<tr><td><input id='hidApp_IDUpdate' name='hidApp_IDUpdate' type='hidden' value='" + app_ID + "'>" + app_status + "</td>"; 
+					  output += "<tr><td><input id='hidbillIDUpdate' name='hidbillIDUpdate' type='hidden' value='" + billID + "'>" + billAmount + "</td>"; 
 
-					  output += "<td>" + app_Details + "</td>";
-						output += "<td>" + app_date + "</td>";
-						output += "<td>" + endorser_type + "</td>";
+					  output += "<td>" + billUnit + "</td>";
+						output += "<td>" + unitPrice + "</td>";
+						output += "<td>" + billCR + "</td>";
+						output += "<td>" + billDate + "</td>";
 						
 					  
 					// buttons     
 					  output += "<td><input name='btnUpdate' type='button' value='Update' class='btnUpdate btn btn-secondary'></td>"
-					  		+ "<td><input name='btnRemove' type='button' value='Remove' class='btnRemove btn btn-danger' data-app_ID='"+ app_ID +"'>"+"</td></tr>";
+					  		+ "<td><input name='btnRemove' type='button' value='Remove' class='btnRemove btn btn-danger' data-app_ID='"+ billID +"'>"+"</td></tr>";
 
 					} 
 				  
@@ -77,15 +79,15 @@ public class Billing {
 				  output += "</table>"; 
 				}
 				catch (Exception e) {  
-					output = "Error while reading the approvement.";  
+					output = "Error while reading the billi.";  
 					System.err.println(e.getMessage()); 
 				}
 
 				return output;
 			}
 		
-		//Insert appointment
-		public String insertBilling(String app_status, String app_Details, String app_date, String endorser_type) {
+		//Insert billing
+		public String insertBilling(String billAmount, String billUnit, String unitPrice, String billCR, String billDate) {
 			String output = "";
 
 			try {
@@ -96,16 +98,17 @@ public class Billing {
 				}
 
 				// create a prepared statement   
-				String query = " insert into approvement (`app_ID`,`app_status`,`app_Details`,`app_date`,`endorser_type`)"+" values (?, ?, ?, ?, ?)";
+				String query = " insert into billings (`billID`,`billAmount`,`billUnit`,`unitPrice`,`billCR`,`billDate`)"+" values (?, ?, ?, ?, ?, ?)";
 
 				PreparedStatement preparedStmt = con.prepareStatement(query);
 
 				// binding values 
 				preparedStmt.setInt(1, 0);
-				preparedStmt.setString(2, app_status);
-				preparedStmt.setString(3, app_Details);
-				preparedStmt.setString(4, app_date);
-				preparedStmt.setString(5,endorser_type);
+				preparedStmt.setString(2, billAmount);
+				preparedStmt.setString(3, billUnit);
+				preparedStmt.setString(4, unitPrice);
+				preparedStmt.setString(5,billCR);
+				preparedStmt.setString(6,billDate);
 				
 				
 				//execute the statement   
@@ -118,7 +121,7 @@ public class Billing {
 			}
 			catch (Exception e) {  
 				//Create JSON Object to show Error msg.
-				output = "{\"status\":\"error\", \"data\": \"Error while Inserting approvement.\"}";   
+				output = "{\"status\":\"error\", \"data\": \"Error while Inserting bill.\"}";   
 				System.err.println(e.getMessage());  
 			} 
 
@@ -126,7 +129,7 @@ public class Billing {
 		}
 		
 		//Update appointment
-		public String updateBilling(String app_ID, String app_status, String app_Details, String app_date, String endorser_type )  {   
+		public String updateBilling(String billID, String billAmount, String billUnit, String unitPrice, String billCR, String billDate )  {   
 			String output = ""; 
 		 
 		  try   {   
@@ -137,16 +140,17 @@ public class Billing {
 			  } 
 		 
 		   // create a prepared statement    
-			   String query = "UPDATE approvement SET app_status=?,app_Details=?,app_date=?,endorser_type=?WHERE app_ID=?";
+			   String query = "UPDATE billings SET billAmount=?,billUnit=?,unitPrice=?,billCR=?,billDate=?WHERE billID=?";
 				 
 		   PreparedStatement preparedStmt = con.prepareStatement(query); 
 		 
 		   // binding values    
-		    preparedStmt.setString(1, app_status);
-			preparedStmt.setString(2,app_Details);
-			preparedStmt.setString(3, app_date);
-			preparedStmt.setString(4,endorser_type);
-			preparedStmt.setInt(5, Integer.parseInt(app_ID));
+		    preparedStmt.setString(1, billAmount);
+			preparedStmt.setString(2,billUnit);
+			preparedStmt.setString(3, unitPrice);
+			preparedStmt.setString(4,billCR);
+			preparedStmt.setString(5,billDate);
+			preparedStmt.setInt(6, Integer.parseInt(billID));
 		   
 		 
 		   // execute the statement    
@@ -157,14 +161,14 @@ public class Billing {
 		   String newBilling = readBilling();
 		   output = "{\"status\":\"success\", \"data\": \"" + newBilling + "\"}";
 		   }   catch (Exception e)   {    
-			   output = "{\"status\":\"error\", \"data\": \"Error while Updating approvement Details.\"}";      
+			   output = "{\"status\":\"error\", \"data\": \"Error while Updating bill Details.\"}";      
 			   System.err.println(e.getMessage());   
 		   } 
 		 
 		  return output;  
 		  }
 		
-		public String deleteBilling(String app_ID) {  
+		public String deleteBilling(String billID) {  
 			String output = ""; 
 		 
 		 try  {   
@@ -175,12 +179,12 @@ public class Billing {
 		  } 
 		 
 		  // create a prepared statement   
-		  String query = "DELETE FROM approvement WHERE app_ID=?"; 
+		  String query = "DELETE FROM billings WHERE billID=?"; 
 		 
 		  PreparedStatement preparedStmt = con.prepareStatement(query); 
 		 
 		  // binding values   
-		  preparedStmt.setInt(1, Integer.parseInt(app_ID));       
+		  preparedStmt.setInt(1, Integer.parseInt(billID));       
 		  // execute the statement   
 		  preparedStmt.execute();   
 		  con.close(); 
@@ -190,7 +194,7 @@ public class Billing {
 		  output = "{\"status\":\"success\", \"data\": \"" + newBilling + "\"}";
 		  }  catch (Exception e)  {  
 			  //Create JSON object 
-			  output = "{\"status\":\"error\", \"data\": \"Error while Deleting approvement.\"}";
+			  output = "{\"status\":\"error\", \"data\": \"Error while Deleting Bill.\"}";
 			  System.err.println(e.getMessage());  
 			  
 		 } 
