@@ -44,10 +44,11 @@ public class BillingApi extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String result = appObj.insertBilling(request.getParameter("app_status"), 
-				request.getParameter("app_Details"), 
-				request.getParameter("app_date"), 
-				request.getParameter("endorser_type"));
+		String result = appObj.insertBilling(request.getParameter("billAmount"), 
+				request.getParameter("billUnit"), 
+				request.getParameter("unitPrice"), 
+				request.getParameter("billCR"),
+				request.getParameter("billdate"));
 		
 		response.getWriter().write(result);
 	}
@@ -82,11 +83,12 @@ public class BillingApi extends HttpServlet {
 
 		Map<String, String> param = getParasMap(request);
 		
-		String result = appObj.updateBilling(param.get("hidApp_IDSave").toString(),
-				param.get("app_status").toString().toString().replace("+", " "),     
-				param.get("app_Details").toString().toString().replace("+", " "),        
-				param.get("app_date").toString().toString().replace("+", " "),       
-				param.get("endorser_type").toString().toString().replace("+", " ")
+		String result = appObj.updateBilling(param.get("hidbillIDSave").toString(),
+				param.get("billAmount").toString().toString().replace("+", " "),     
+				param.get("billUnit").toString().toString().replace("+", " "),        
+				param.get("unitPrice").toString().toString().replace("+", " "),       
+				param.get("billCR").toString().toString().replace("+", " "),
+				param.get("billDate").toString().toString().replace("+", " ")
 		 	
  				);
 		
@@ -101,7 +103,7 @@ public class BillingApi extends HttpServlet {
 
 		Map<String, String> param = getParasMap(request);
 		
-		String result = appObj.deleteBilling(param.get("app_ID").toString());
+		String result = appObj.deleteBilling(param.get("billID").toString());
 		
 		response.getWriter().write(result);
 	}
