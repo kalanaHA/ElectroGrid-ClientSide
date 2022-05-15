@@ -13,10 +13,9 @@ My project is based on an Electro Grid (EG) is the company who maintains the pow
 
 
 # How to execute the project?
-Import the ElectroGrid_Clientside DB then clone the project and after it become cloned by using apache tomcat server the project can be executed. Execute the Index.jsp file through apache tomcat server and when the login user interface appear give the username and password which have been stated below.
+Import the ElectroGrid_Clientside DB then clone the project and after it become cloned by using apache tomcat server the project can be executed. 
 
--  Username: kalana
--  Password :it20151492
+
 
 #  Link  To GadgetBadget_clientside Database
 https://github.com/kalanaHA/ElectroGrid-ClientSide/blob/master/DataBase/electrogrid.sql
