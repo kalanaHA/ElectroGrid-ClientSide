@@ -48,7 +48,7 @@ public class BillingApi extends HttpServlet {
 				request.getParameter("billUnit"), 
 				request.getParameter("unitPrice"), 
 				request.getParameter("billCR"),
-				request.getParameter("billdate"));
+				request.getParameter("billDate"));
 		
 		response.getWriter().write(result);
 	}
