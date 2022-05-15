@@ -58,18 +58,18 @@ public class Billing {
 						String billDate = rs.getString("billDate");
 						
 					  // Add into the html table    
-
+						
 					  output += "<tr><td><input id='hidbillIDUpdate' name='hidbillIDUpdate' type='hidden' value='" + billID + "'>" + billAmount + "</td>"; 
 
 					  output += "<td>" + billUnit + "</td>";
-						output += "<td>" + unitPrice + "</td>";
-						output += "<td>" + billCR + "</td>";
-						output += "<td>" + billDate + "</td>";
+					  output += "<td>" + unitPrice + "</td>";
+					  output += "<td>" + billCR + "</td>";
+					  output += "<td>" + billDate + "</td>";
 						
 					  
 					// buttons     
 					  output += "<td><input name='btnUpdate' type='button' value='Update' class='btnUpdate btn btn-secondary'></td>"
-					  		+ "<td><input name='btnRemove' type='button' value='Remove' class='btnRemove btn btn-danger' data-app_ID='"+ billID +"'>"+"</td></tr>";
+					  		+ "<td><input name='btnRemove' type='button' value='Remove' class='btnRemove btn btn-danger' data-billID='"+ billID +"'>"+"</td></tr>";
 
 					} 
 				  
@@ -79,7 +79,7 @@ public class Billing {
 				  output += "</table>"; 
 				}
 				catch (Exception e) {  
-					output = "Error while reading the billi.";  
+					output = "Error while reading the bill.";  
 					System.err.println(e.getMessage()); 
 				}
 
@@ -140,7 +140,7 @@ public class Billing {
 			  } 
 		 
 		   // create a prepared statement    
-			   String query = "UPDATE billings SET billAmount=?,billUnit=?,unitPrice=?,billCR=?,billDate=?WHERE billID=?";
+			   String query = "UPDATE billings SET billAmount=?,billUnit=?,unitPrice=?,billCR=?,billDate=? WHERE billID=?";
 				 
 		   PreparedStatement preparedStmt = con.prepareStatement(query); 
 		 
